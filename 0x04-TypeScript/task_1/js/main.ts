@@ -1,4 +1,4 @@
-// Teacher interface
+// Task 1: Teacher interface
 interface Teacher {
   readonly firstName: string;
   readonly lastName: string;
@@ -8,22 +8,52 @@ interface Teacher {
   [key: string]: any;
 }
 
-// Directors interface extends Teacher
+// Task 2: Directors interface extends Teacher
 interface Directors extends Teacher {
   numberOfReports: number;
 }
 
-// Function type interface
+// Task 3: printTeacher function + interface
 interface printTeacherFunction {
-  ({ firstName, lastName }: { firstName: string; lastName: string }): string;
+  (firstName: string, lastName: string): string;
 }
 
-// Function implementation
-function printTeacher({ firstName, lastName }: { firstName: string; lastName: string }): string {
-  return `${firstName}. ${lastName}`;
+function printTeacher(firstName: string, lastName: string): string {
+  return `${firstName[0]}. ${lastName}`;
 }
 
-// Example usage
+// Task 4: StudentClass + interfaces
+interface StudentConstructor {
+  firstName: string;
+  lastName: string;
+}
+
+interface StudentClassInterface {
+  workOnHomework(): string;
+  displayName(): string;
+}
+
+class StudentClass implements StudentClassInterface {
+  private firstName: string;
+  private lastName: string;
+
+  constructor({ firstName, lastName }: StudentConstructor) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
+  workOnHomework(): string {
+    return "Currently working";
+  }
+
+  displayName(): string {
+    return this.firstName;
+  }
+}
+
+// ===== Examples to verify functionality =====
+
+// Teacher example
 const teacher3: Teacher = {
   firstName: 'John',
   lastName: 'Doe',
@@ -31,9 +61,9 @@ const teacher3: Teacher = {
   location: 'London',
   contract: false,
 };
-
 console.log(teacher3);
 
+// Directors example
 const director1: Directors = {
   firstName: 'John',
   lastName: 'Doe',
@@ -41,7 +71,12 @@ const director1: Directors = {
   fullTimeEmployee: true,
   numberOfReports: 17,
 };
-
 console.log(director1);
 
-console.log(printTeacher({ firstName: "John", lastName: "Doe" }));
+// printTeacher example
+console.log(printTeacher("John", "Doe")); // J. Doe
+
+// StudentClass example
+const student1 = new StudentClass({ firstName: "Alice", lastName: "Smith" });
+console.log(student1.displayName()); // Alice
+console.log(student1.workOnHomework()); // Currently working
