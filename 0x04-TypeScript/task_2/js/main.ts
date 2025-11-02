@@ -1,51 +1,121 @@
-// task_2/js/main.ts
+// task_1/js/main.ts
 
-interface DirectorInterface {
-  workFromHome(): string;
-  getCoffeeBreak(): string;
-  workDirectorTasks(): string;
+/** ====== Task 1 & 2: Teacher & Director ====== **/
+
+// Task 1: Teacher interface
+interface Teacher {
+  firstName: string;
+  lastName: string;
+  fullTimeEmployee: boolean;
+  location: string;
+  yearsOfExperience?: number;
+  [key: string]: any; // for extra properties
 }
 
-interface TeacherInterface {
-  workFromHome(): string;
-  getCoffeeBreak(): string;
-  workTeacherTasks(): string;
+// Task 2: Director interface extends Teacher
+interface Director extends Teacher {
+  numberOfReports: number;
 }
 
-class Director implements DirectorInterface {
-  workFromHome(): string {
-    return "Working from home";
+// Example Director
+const director1: Director = {
+  firstName: 'John',
+  lastName: 'Doe',
+  location: 'London',
+  fullTimeEmployee: true,
+  numberOfReports: 17,
+};
+console.log(director1);
+
+/** ====== Task 3: printTeacher ====== **/
+
+// Task 3: printTeacherFunction interface
+interface printTeacherFunction {
+  (firstName: string, lastName: string): string;
+}
+
+// Task 3: function
+const printTeacher: printTeacherFunction = (firstName, lastName) => {
+  return `${firstName[0]}. ${lastName}`;
+};
+
+// Example
+console.log(printTeacher("John", "Doe")); // J. Doe
+
+/** ====== Task 4 & 5: StudentClass ====== **/
+
+// Task 4: Interface for constructor
+interface StudentConstructor {
+  new(firstName: string, lastName: string): StudentClassInterface;
+}
+
+// Task 4: Interface for class
+interface StudentClassInterface {
+  firstName: string;
+  lastName: string;
+  workOnHomework(): string;
+  displayName(): string;
+}
+
+// Task 4: Class
+class StudentClass implements StudentClassInterface {
+  constructor(public firstName: string, public lastName: string) {}
+
+  workOnHomework(): string {
+    return "Currently working";
   }
 
-  getCoffeeBreak(): string {
-    return "Getting a coffee break";
-  }
-
-  workDirectorTasks(): string {
-    return "Getting to director tasks";
+  displayName(): string {
+    return this.firstName;
   }
 }
 
-class Teacher implements TeacherInterface {
-  workFromHome(): string {
-    return "Cannot work from home";
-  }
+// Example
+const student = new StudentClass("Alice", "Johnson");
+console.log(student.displayName()); // Alice
+console.log(student.workOnHomework()); // Currently working
 
-  getCoffeeBreak(): string {
-    return "Cannot have a break";
-  }
+/** ====== Task 6: Functions for Employees ====== **/
 
-  workTeacherTasks(): string {
-    return "Getting to work";
+// Reuse Teacher & Director interfaces
+
+// Type predicate function
+function isDirector(employee: Teacher | Director): employee is Director {
+  return (employee as Director).numberOfReports !== undefined;
+}
+
+// executeWork function
+function executeWork(employee: Teacher | Director) {
+  if (isDirector(employee)) {
+    employee.workDirectorTasks();
+  } else {
+    employee.workTeacherTasks();
   }
 }
 
-function createEmployee(salary: number | string): Director | Teacher {
-  if (typeof salary === "number") {
-    if (salary < 500) {
-      return new Teacher();
-    }
-    return new Director();
+// createEmployee helper for examples
+function createEmployee(salary: number): Teacher | Director {
+  if (salary > 500) {
+    return {
+      firstName: "John",
+      lastName: "Doe",
+      location: "London",
+      fullTimeEmployee: true,
+      numberOfReports: 17,
+      workDirectorTasks: () => console.log("Getting to director tasks"),
+      workTeacherTasks: () => console.log("Getting to work"),
+    };
+  } else {
+    return {
+      firstName: "Jane",
+      lastName: "Smith",
+      location: "Paris",
+      fullTimeEmployee: true,
+      workTeacherTasks: () => console.log("Getting to work"),
+    };
   }
-  return new Director();
 }
+
+// Test examples
+executeWork(createEmployee(200));   // Getting to work
+executeWork(createEmployee(1000));  // Getting to director tasks
