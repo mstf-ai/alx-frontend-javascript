@@ -67,8 +67,8 @@ export function executeWork(employee: Director | Teacher): string {
 // String literal type
 export type Subjects = 'Math' | 'History';
 
-// teachClass function (النسخة الصحيحة المطلوبة)
-export function teachClass(todayClass: Subjects): string {
+// teachClass function (بدون مسافة بين ":" و "Subjects")
+export function teachClass(todayClass:Subjects): string {
   if (todayClass === 'Math') {
     return 'Teaching Math';
   }
