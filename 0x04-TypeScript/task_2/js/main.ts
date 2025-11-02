@@ -1,61 +1,61 @@
-// 1. DirectorInterface
+// DirectorInterface
 export interface DirectorInterface {
   workFromHome(): string;
   getCoffeeBreak(): string;
   workDirectorTasks(): string;
 }
 
-// 2. TeacherInterface
+// TeacherInterface
 export interface TeacherInterface {
   workFromHome(): string;
   getCoffeeBreak(): string;
   workTeacherTasks(): string;
 }
 
-// 3. Director class
+// Director class
 export class Director implements DirectorInterface {
   workFromHome(): string {
-    return "Working from home";
+    return 'Working from home';
   }
 
   getCoffeeBreak(): string {
-    return "Getting a coffee break";
+    return 'Getting a coffee break';
   }
 
   workDirectorTasks(): string {
-    return "Getting to director tasks";
+    return 'Getting to director tasks';
   }
 }
 
-// 4. Teacher class
+// Teacher class
 export class Teacher implements TeacherInterface {
   workFromHome(): string {
-    return "Cannot work from home";
+    return 'Cannot work from home';
   }
 
   getCoffeeBreak(): string {
-    return "Cannot have a break";
+    return 'Cannot have a break';
   }
 
   workTeacherTasks(): string {
-    return "Getting to work";
+    return 'Getting to work';
   }
 }
 
-// 5. createEmployee function
+// createEmployee function
 export function createEmployee(salary: number | string): Director | Teacher {
-  if (typeof salary === "number" && salary < 500) {
+  if (typeof salary === 'number' && salary < 500) {
     return new Teacher();
   }
   return new Director();
 }
 
-// 6. isDirector function
+// isDirector function
 export function isDirector(employee: Director | Teacher): employee is Director {
   return (employee as Director).workDirectorTasks !== undefined;
 }
 
-// 7. executeWork function
+// executeWork function
 export function executeWork(employee: Director | Teacher): string {
   if (isDirector(employee)) {
     return employee.workDirectorTasks();
@@ -64,13 +64,13 @@ export function executeWork(employee: Director | Teacher): string {
   }
 }
 
-// 8. String literal type
-export type Subjects = "Math" | "History";
+// String literal type
+export type Subjects = 'Math' | 'History';
 
-// 9. teachClass function
+// teachClass function (النسخة الصحيحة المطلوبة)
 export function teachClass(todayClass: Subjects): string {
-  if (todayClass === "Math") {
-    return "Teaching Math";
+  if (todayClass === 'Math') {
+    return 'Teaching Math';
   }
-  return "Teaching History";
+  return 'Teaching History';
 }
