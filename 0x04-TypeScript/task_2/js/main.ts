@@ -1,61 +1,76 @@
-// task_2/js/main.ts
-
-/** ====== Task 6: Functions for Employees ====== **/
-
-// Teacher interface (يمكن نسخه من المهمة السابقة)
-interface Teacher {
-  firstName: string;
-  lastName: string;
-  fullTimeEmployee: boolean;
-  location: string;
-  workTeacherTasks(): void;
+// 1. DirectorInterface
+export interface DirectorInterface {
+  workFromHome(): string;
+  getCoffeeBreak(): string;
+  workDirectorTasks(): string;
 }
 
-// Director interface extends Teacher
-interface Director extends Teacher {
-  numberOfReports: number;
-  workDirectorTasks(): void;
+// 2. TeacherInterface
+export interface TeacherInterface {
+  workFromHome(): string;
+  getCoffeeBreak(): string;
+  workTeacherTasks(): string;
 }
 
-// Type predicate function
-function isDirector(employee: Teacher | Director): employee is Director {
-  return (employee as Director).numberOfReports !== undefined;
+// 3. Director class
+export class Director implements DirectorInterface {
+  workFromHome(): string {
+    return "Working from home";
+  }
+
+  getCoffeeBreak(): string {
+    return "Getting a coffee break";
+  }
+
+  workDirectorTasks(): string {
+    return "Getting to director tasks";
+  }
 }
 
-// executeWork function
-function executeWork(employee: Teacher | Director) {
+// 4. Teacher class
+export class Teacher implements TeacherInterface {
+  workFromHome(): string {
+    return "Cannot work from home";
+  }
+
+  getCoffeeBreak(): string {
+    return "Cannot have a break";
+  }
+
+  workTeacherTasks(): string {
+    return "Getting to work";
+  }
+}
+
+// 5. createEmployee function
+export function createEmployee(salary: number | string): Director | Teacher {
+  if (typeof salary === "number" && salary < 500) {
+    return new Teacher();
+  }
+  return new Director();
+}
+
+// 6. isDirector function
+export function isDirector(employee: Director | Teacher): employee is Director {
+  return (employee as Director).workDirectorTasks !== undefined;
+}
+
+// 7. executeWork function
+export function executeWork(employee: Director | Teacher): string {
   if (isDirector(employee)) {
-    employee.workDirectorTasks();
+    return employee.workDirectorTasks();
   } else {
-    employee.workTeacherTasks();
+    return employee.workTeacherTasks();
   }
 }
 
-// createEmployee helper for testing
-function createEmployee(salary: number): Teacher | Director {
-  if (salary > 500) {
-    return {
-      firstName: "John",
-      lastName: "Doe",
-      location: "London",
-      fullTimeEmployee: true,
-      numberOfReports: 17,
-      workDirectorTasks: () => console.log("Getting to director tasks"),
-      workTeacherTasks: () => console.log("Getting to work"),
-    };
-  } else {
-    return {
-      firstName: "Jane",
-      lastName: "Smith",
-      location: "Paris",
-      fullTimeEmployee: true,
-      workTeacherTasks: () => console.log("Getting to work"),
-    };
+// 8. String literal type
+export type Subjects = "Math" | "History";
+
+// 9. teachClass function
+export function teachClass(todayClass: Subjects): string {
+  if (todayClass === "Math") {
+    return "Teaching Math";
   }
+  return "Teaching History";
 }
-
-// Test examples
-executeWork(createEmployee(200));   // Getting to work
-executeWork(createEmployee(1000));  // Getting to director tasks
-
-  
