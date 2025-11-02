@@ -20,9 +20,10 @@ const teacher3: Teacher = {
 console.log(teacher3);
 
 // 2. Directors interface extending Teacher
-interface Directors extends Teacher {
+interface Director extends Teacher {
   numberOfReports: number;
 }
+
 
 // Example usage
 const director1: Directors = {
